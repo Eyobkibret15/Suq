@@ -1,0 +1,7 @@
+{
+  "name": "suq",
+  "version": "1.0.0",
+  "dependencies": {
+    "django-js-reverse": "^0.10.1-a.0"
+  }
+}

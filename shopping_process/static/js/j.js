@@ -1,0 +1,1 @@
+document.getElementById("sidebar").innerHTML = "Hello JavaScript!";

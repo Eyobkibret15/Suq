@@ -1,0 +1,14 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block csslink %}
+<link rel="stylesheet" href={% static 'css/c.css' %}>
+{% endblock csslink %}
+{% block content %}
+    <h1>Welcome</h1>
+    <p id="demo"></p>
+    <img src={% static 'p' %}>
+    <p>This is the home page</p>
+{% endblock content %}
+{% block jssscript %}
+<script src={% static 'js/j.js' %}></script>
+{% endblock jssscript %}
