@@ -11,6 +11,7 @@ async function getCategories() {
             const divs = [sidebar, mobile_filter]
             divs.forEach((div) => {
                 response.name.forEach((element) => {
+                    console.log('000000000000000000000000000')
                     const bars = document.createElement("div");
                     bars.className = 'py-2  ml-3'
                     const categories = document.createElement("h6");
@@ -100,4 +101,4 @@ async function getProducts() {
     })
 }
 
-// getProducts();
+getProducts();

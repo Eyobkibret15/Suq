@@ -1,0 +1,111 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block csslink %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href={% static 'css/account.css' %}>
+    <style>
+        .input:placeholder-shown + .placeholder {
+  /* if real placeholder is shown - hide fake placeholder */
+  opacity: 0;
+}
+    .placeholder {
+  position: absolute;
+  right: 4px;
+  top: 2px;
+  pointer-events: none;
+  opacity: .5;
+}
+    </style>
+{% endblock csslink %}
+{% block content %}
+    <!-- Navbar-->
+<header class="header">
+    <nav class="navbar navbar-expand-lg navbar-light py-3">
+        <div class="container">
+            <!-- Navbar Brand -->
+             <a class="navbar-brand ml-2 font-weight-bold"
+                href="{% url 'home' %}"><span id="burgundy">The</span><span
+                id="orange">Richo</span></a>
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <div class="row py-5 mt-4 align-items-center">
+        <!-- For Demo Purpose -->
+        <div class="col-md-5 pr-lg-5 mb-5 mb-md-0">
+            <img src="{% static "img/e.png" %}" alt="" class="img-fluid mb-3 d-none d-md-block">
+            <h1>Create an Account</h1>
+            <p class="font-italic text-muted mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aspernatur commodi consequatur, deserunt facilis labore, maiores officiis quis quos sint sit suscipit. Aliquid deserunt modi repudiandae saepe sapiente veniam voluptate.</p>
+{#            <p class="font-italic text-muted">Snippet By <a href="https://bootstrapious.com" class="text-muted">#}
+{#                <u>Bootstrapious</u></a>#}
+            </p>
+        </div>
+        <!-- Registeration Form -->
+        <div class="col-md-7 col-lg-6 ml-auto">
+            <form action="{% url 'signin' %}" method="post">{% csrf_token %}
+                <div class="row">
+                   <p>{{ data }}</p>
+                    <!-- Email Address -->
+                    <div class="input-group col-lg-12 mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white px-4 border-md border-right-0">
+                                <i class="fa fa-envelope text-muted"></i>
+                            </span>
+                        </div>
+                        <input id="email" type="email" name="email" placeholder="Email Address" class="form-control bg-white border-left-0 border-md">
+                    </div>
+
+                    <!-- Password -->
+                    <div class="input-group col-lg-6 mb-4">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white px-4 border-md border-right-0">
+                                <i class="fa fa-lock text-muted"></i>
+                            </span>
+                        </div>
+                        <input id="password" type="password" name="password" placeholder="Password" class="form-control bg-white border-left-0 border-md">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-group col-lg-12 mx-auto mb-0">
+                        <button class="btn btn-primary btn-block py-2">
+                                <span class="font-weight-bold">LOG IN</span>
+                            </button>
+                    </div>
+
+                    <!-- Divider Text -->
+                    <div class="form-group col-lg-12 mx-auto d-flex align-items-center my-4">
+                        <div class="border-bottom w-100 ml-5"></div>
+                        <span class="px-2 small text-muted font-weight-bold text-muted">OR</span>
+                        <div class="border-bottom w-100 mr-5"></div>
+                    </div>
+
+                    <!-- Social Login -->
+                    <div class="form-group col-lg-12 mx-auto">
+                        <a href="#" class="btn btn-primary btn-block py-2 btn-facebook">
+                            <i class="fa fa-facebook-f mr-2"></i>
+                            <span class="font-weight-bold">Continue with Google</span>
+                        </a>
+                        <a href="#" class="btn btn-primary btn-block py-2 btn-twitter">
+                            <i class="fa fa-twitter mr-2"></i>
+                            <span class="font-weight-bold">Continue with FaceBook</span>
+                        </a>
+                    </div>
+
+                    <!-- Already Registered -->
+                    <div class="text-center w-100">
+                        <p class="text-muted font-weight-bold">Do not have an account? <a href="{% url 'signup' %}" class="text-primary ml-2">Register</a></p>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+{% block jssscript %}
+     <script type="text/javascript"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+     <script src={% static 'js/account.js' %}></script>
+{% endblock jssscript %}

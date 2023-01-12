@@ -10,10 +10,14 @@ from user_management.models import Img
 def home(request):
     return render(request, 'index.html')
 
+@api_view(['GET'])
+def filter(request):
+    return render(request, 'filter.html')
+
 
 @api_view(['GET'])
 def home2(request):
-    return render(request, 'sadasd.html')
+    return render(request, 'check.html')
 
 @api_view(['GET','POST'])
 def ppic(request):

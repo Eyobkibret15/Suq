@@ -1,18 +1,18 @@
 from django.db import models
 from django.utils import timezone
 from django_iban.fields import IBANField, SWIFTBICField
+from django.contrib.auth.hashers import make_password
 
 class User(models.Model):
     id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=250)
     password = models.CharField(max_length=250)
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
-    email = models.EmailField()
-    gender_choices = [("M", "Male"), ("F", "Female"), ("O", "Unidentified")]
-    gender = models.CharField(choices=gender_choices, default="0", max_length=1)
+    email = models.EmailField(unique=True)
+    gender_choices = [("M", "Male"), ("F", "Female"), ("O", "Other")]
+    gender = models.CharField(choices=gender_choices, max_length=1)
     date_of_birth = models.DateField(blank=True, null=True)
-    telephone = models.IntegerField()
+    telephone = models.IntegerField(unique=True)
     profile_picture = models.ImageField(default='default.jpg', upload_to='profile_pics', blank=True)  # You need to configure media in settings.py
     created_at = models.DateTimeField(editable=False)
     modified_at = models.DateTimeField(null=True,blank=True)
@@ -22,10 +22,10 @@ class User(models.Model):
         if not self.id:
             self.created_at = timezone.now()
         self.modified_at = timezone.now()
+        self.password = make_password(self.password)
         return super(User, self).save(*args, **kwargs)
-
     def __str__(self):
-        return self.username
+        return self.first_name + " " + self.last_name
 class Img(models.Model):
     name = models.CharField(max_length=50)
     ppic = models.ImageField(default='default.jpg', upload_to='profile_pics', blank=True)  # You need to configure media in settings.py
