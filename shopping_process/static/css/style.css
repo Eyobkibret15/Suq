@@ -29,6 +29,9 @@ a {
   color: #41307c;
   text-decoration: none;
 }
+.productlink {
+  background-color: red !important;
+}
 
 /* --------------------------------
 
@@ -640,4 +643,3 @@ xcustom form elements
 .cd-filter, .cd-filter-trigger {
   margin-top: 100px;
 }
-

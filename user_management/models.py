@@ -15,6 +15,7 @@ class User(models.Model):
     telephone = models.IntegerField(unique=True)
     profile_picture = models.ImageField(default='default.jpg', upload_to='profile_pics', blank=True)  # You need to configure media in settings.py
     created_at = models.DateTimeField(editable=False)
+    rating = models.FloatField(null=True,blank=True, max_length=5)
     modified_at = models.DateTimeField(null=True,blank=True)
 
     def save(self, *args, **kwargs):

@@ -10,6 +10,35 @@ from product_management.models import ProductCategory, Product
 def home(request):
     return render(request, 'check.html')
 
+@api_view(['GET'])
+def product_page(request,id):
+    return render(request, 'product_detail.html')
+
+
+@api_view(['GET'])
+def product_detail(request,id:int):
+    product = Product.objects.get(active=True,id=id)
+    data = {}
+    image_ids = product.images.all()
+    images = []
+    for image_id in image_ids:
+        images.append(str(image_id.image))
+    quantity = product.inventory_id
+    if quantity: quantity = quantity.quantity
+    discount = product.discount_id
+    if discount: discount = product.discount_id.discount_present
+    price = product.price
+    description = product.description
+    categories = product.subcategory_id.category_id.name
+    subcategories = product.subcategory_id.name
+    rating = product.owner.rating
+    id = product.id
+    name  = product.name
+    data= {'id': id,'name':name,  'images': images, 'discount': discount, 'price': price,
+                          'subcategories': subcategories,
+                          'description': description, 'quantity': quantity, 'categories': categories,
+                          'rating': rating}
+    return Response(data=data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def product(request):
@@ -28,8 +57,10 @@ def product(request):
         description = product.description
         categories = product.subcategory_id.category_id.name
         subcategories = product.subcategory_id.name
-        data[product.name] = {'images': images, 'discount': discount, 'price': price,'subcategories': subcategories,
-                              'description': description, 'quantity': quantity,'categories': categories}
+        rating = product.owner.rating
+        id = product.id
+        data[product.name] = {'id':id,'images': images, 'discount': discount, 'price': price,'subcategories': subcategories,
+                              'description': description, 'quantity': quantity,'categories': categories, 'rating':rating}
     return Response(data=data, status=status.HTTP_200_OK)
 
 

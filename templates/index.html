@@ -12,7 +12,7 @@
     <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom">
         <a class="navbar-brand brandname ml-2 font-weight-bold"
            href="{% url 'home' %}"><span id="burgundy">The</span><span
-                id="orange">Richo</span></a>
+                id="orange">SuQ</span></a>
         {#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor"#}
         {#                aria-controls="navbarColor" aria-expanded="false" aria-label="Toggle navigation"><span#}
         {#                class="navbar-toggler-icon"></span></button>#}
@@ -38,6 +38,9 @@
             </div>
             <div class="user">
                 <a href="{% url 'signin' %}">LogIn</a>
+            </div>
+            <div class="user">
+                <a href="{% url 'admin:index' %}">Admin</a>
             </div>
         </div>
     </nav>
@@ -141,8 +144,8 @@
                         <span class="text-muted">Sort by</span>
                         <select name="sort" id="sort">
                             <option value="popularity">Popularity</option>
-                            <option value="prcie">Price</option>
-                            <option value="rating">Rating</option>
+                            <option value="price">The Cheapest</option>
+                            <option value="rating">The Highest Rating</option>
                         </select>
                     </div>
                 </div>
@@ -224,4 +227,6 @@
     <script src="{% static 'js/jquery-2.1.1.js' %}"></script>
     <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script> <!-- Resource jQuery -->
+        <script src="{% static 'js/product_click.js' %}"></script>
+
 {% endblock jssscript %}

@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from user_management.models import User
+
 
 class ProductCategory(models.Model):
     id = models.AutoField(primary_key=True)
@@ -97,6 +99,7 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
     price = models.FloatField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     active = models.BooleanField(default=False)
     subcategory_id = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE)
     inventory_id = models.ForeignKey(ProductInventory, on_delete=models.CASCADE)
