@@ -2,6 +2,8 @@
 {% load static %}
 {% block csslink %}
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel='stylesheet'
+          type='text/css'>
     <link rel="stylesheet" href={% static 'css/reset.css' %}> <!-- CSS reset -->
     <link rel="stylesheet" href={% static 'css/style.css' %}> <!-- Resource style -->
     <link rel="stylesheet" href={% static 'css/index.css' %}>
@@ -29,6 +31,7 @@
         {#            </ul>#}
         {#        </div>#}
         <div class="user-interactions">
+
             <div class="cart">
                 <img src="{% static "img/cart.png" %}" class="cart-icon" alt="">
                 <span class="cart-item-count">00</span>
@@ -40,8 +43,9 @@
                 <a href="{% url 'signin' %}">LogIn</a>
             </div>
             <div class="user">
-                <a href="{% url 'admin:index' %}">Admin</a>
+                <a href="{% url 'admin:index' %}">Admin </a>
             </div>
+
         </div>
     </nav>
     <section id="sidebar">
@@ -87,27 +91,43 @@
                     </div> <!-- cd-filter-content -->
                 </div> <!-- cd-filter-block -->
                 <div class="cd-filter-block">
-                    <h4>Check boxes</h4>
+                    <h4>Price (PLN)</h4>
 
                     <ul class="cd-filter-content cd-filters list">
+                          <li>
+                            <input name="price-f" value="-100" class="filter" data-filter=".check2" type="radio" id="checkbox2">
+                            <label class="checkbox-label" for="checkbox2">Below 100 PLN</label>
+                        </li>
                         <li>
-                            <input class="filter" data-filter=".check1" type="checkbox" id="checkbox1">
-                            <label class="checkbox-label" for="checkbox1">Option 1</label>
+                            <input name="price-f" value="100-500" class="filter" data-filter=".check2" type="radio" id="checkbox2">
+                            <label class="checkbox-label" for="checkbox2">PLN 100 to PLN 500</label>
                         </li>
 
                         <li>
-                            <input class="filter" data-filter=".check2" type="checkbox" id="checkbox2">
-                            <label class="checkbox-label" for="checkbox2">Option 2</label>
+                            <input name="price-f" value="500-100" class="filter" data-filter=".check3" type="radio" id="checkbox3">
+                            <label class="checkbox-label" for="checkbox3">PLN 500 to PLN 1000</label>
                         </li>
-
                         <li>
-                            <input class="filter" data-filter=".check3" type="checkbox" id="checkbox3">
-                            <label class="checkbox-label" for="checkbox3">Option 3</label>
+                            <input name="price-f" value="1000-2000" class="filter" data-filter=".check3" type="radio" id="checkbox3">
+                            <label class="checkbox-label" for="checkbox3">PLN 1000 to PLN 2000</label>
+                        </li>
+                        <li>
+                            <input name="price-f" value="2000-" class="filter" data-filter=".check3" type="radio" id="checkbox3">
+                            <label class="checkbox-label" for="checkbox3">above 2000 PLN</label>
+                        </li>
+                        <li>
+                            <div class="price-filter">
+                                <input class="filter from" data-filter=".check3" type="text" id="checkbox3"
+                                       placeholder="from">
+                                <span class="separator">-</span>
+                                <input class="filter down" data-filter=".check3" type="text" id="checkbox3"
+                                       placeholder="down">
+                            </div>
                         </li>
                     </ul> <!-- cd-filter-content -->
                 </div> <!-- cd-filter-block -->
                 <div class="cd-filter-block">
-                    <h4>Radio buttons</h4>
+                    <h4>Free shipping and returns</h4>
 
                     <ul class="cd-filter-content cd-filters list">
                         <li>
@@ -117,12 +137,12 @@
 
                         <li>
                             <input class="filter" data-filter=".radio2" type="radio" name="radioButton" id="radio2">
-                            <label class="radio-label" for="radio2">Choice 2</label>
+                            <label class="radio-label" for="radio2">Free shipping</label>
                         </li>
 
                         <li>
                             <input class="filter" data-filter=".radio3" type="radio" name="radioButton" id="radio3">
-                            <label class="radio-label" for="radio3">Choice 3</label>
+                            <label class="radio-label" for="radio3">Free Return</label>
                         </li>
                     </ul> <!-- cd-filter-content -->
                 </div> <!-- cd-filter-block -->
@@ -136,6 +156,10 @@
     </section>
     <section class="best-selling-product-section">
         {#    <h1 class="section-title">best selling products</h1>#}
+        <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+            <input type="text" placeholder="Search.." name="search2">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
         <div class="container">
             <div class="d-flex flex-row">
                 {#                <div class="text-muted m-2" id="res">Showing 44 results</div>#}
@@ -227,6 +251,6 @@
     <script src="{% static 'js/jquery-2.1.1.js' %}"></script>
     <script src="{% static 'js/jquery.mixitup.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script> <!-- Resource jQuery -->
-        <script src="{% static 'js/product_click.js' %}"></script>
+    <script src="{% static 'js/product_click.js' %}"></script>
 
 {% endblock jssscript %}

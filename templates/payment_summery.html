@@ -1,0 +1,123 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block csslink %}
+    <link rel="stylesheet" href={% static 'css/payment_summery.css' %}>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel='stylesheet'
+          type='text/css'>
+    {#    <link rel="stylesheet" href={% static 'css/reset.css' %}> <!-- CSS reset -->#}
+    <link rel="stylesheet" href={% static 'css/style.css' %}> <!-- Resource style -->
+    <link rel="stylesheet" href={% static 'css/index.css' %}>
+    <link rel="stylesheet" href={% static 'css/sds.css' %}>
+{% endblock csslink %}
+{% block content %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+       <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom">
+            <a class="navbar-brand brandname ml-2 font-weight-bold"
+               href="{% url 'home' %}"><span id="burgundy">The</span><span
+                    id="orange">SuQ</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor"
+                    aria-controls="navbarColor" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+{#            <div class="collapse navbar-collapse" id="navbarColor">#}
+{#                <ul class="navbar-nav">#}
+{#                    <li class="nav-item "><a class="nav-link" href="#"><span class="fa fa-shopping-cart"></span><span#}
+{#                            class="text">Cart</span></a></li>#}
+{#                </ul>#}
+{#            </div>#}
+            <div class="user-interactions">
+
+                <div class="cart">
+                    <img src="{% static "img/cart.png" %}" class="cart-icon" alt="">
+                    <span class="cart-item-count">00</span>
+                </div>
+                <div class="user">
+                    <a href="{% url 'signin' %}"><img src="{% static "img/user.png" %}" class="user-icon" alt=""></a>
+                </div>
+            </div>
+        </nav>
+    <div class="center-wrapper">
+        <div class="content">
+            <nav>
+{#                <a href="#" class="menu">Menu</a>#}
+                <h1 class="logo">DiveShop</h1>
+                <div class="icons">
+                    <i class="fas fa-search"></i>
+                    <i class="fas fa-shopping-bag"></i><span style="margin-left: 0.3rem;">1</span>
+                </div>
+            </nav>
+            <div class="top-bar">
+                <i class="fas "></i>
+                <span>Order Confirmation</span>
+            </div>
+            <div class="bag">
+                <p class="bag-head"><span style="text-transform: capitalize">order-number</span> - 1232423453426536</p>
+            </div>
+            <div class="bag-product">
+                <div class="image">
+                    {#                <img src="{% static 'img/title_icon.png' %}"#}
+                    {#                     class="product-image">#}
+                </div>
+                <div class="description">
+                    <h1>Product 1</h1>
+                    <p class="product-code small muted">Product code: SS022592000</p>
+                    {#                <p class="description-text">An easy-to-use dive computer with freedive mode and air integration.</p>#}
+                    {#                <p style="margin-bottom: 0.5rem;">One Size</p>#}
+                    <h3>825.00 PLN</h3>
+                    <br>
+                    <h1>Product 2</h1>
+                    <p class="product-code small muted">Product code: SS022592000</p>
+                    {#                <p class="description-text">An easy-to-use dive computer with freedive mode and air integration.</p>#}
+                    {#                <p style="margin-bottom: 0.5rem;">One Size</p>#}
+                    <h3>453.00 PLN</h3>
+                    <div class="quantity-wrapper">
+                        {#                    <div>#}
+                        {#                        <label for="quantity" style="margin-right: 0.5rem;">Quantity:</label>#}
+                        {#                        <select name="quantity" style="margin-bottom: 1rem;">#}
+                        {#                            <option value disabled>Please select</option>#}
+                        {#                            <option value="1" selected>1</option>#}
+                        {#                            <option value="2">2</option>#}
+                        {#                            <option value="3">3</option>#}
+                        {#                        </select>#}
+                        {#                    </div>#}
+                        {#                    <button class="btn-remove">Cancel</button>#}
+                    </div>
+                </div>
+            </div>
+            <div class="bag-total">
+                <div class="subtotal">
+                    <p class="small">Subtotal:</p>
+                    <p class="small">1278.00 PLN</p>
+                </div>
+                <div class="delivery">
+                    <p class="small">Delivery (Standard - 2 working days):<br>
+                        {#                    <span class="change-delivery">Change delivery method</span></p>#}
+                    <p class="small">8 PLN</p>
+                </div>
+                <div class="total">
+                    <h3>Total:</h3>
+                    <h3>1286.00 PLN</h3>
+                </div>
+                {#            <div class="promo-checkbox">#}
+                {#                <input type="checkbox" name="promo-check" checked>#}
+                {#                <label for="promo-check">I have a promo code</label>#}
+                {#            </div>#}
+                {#            <div class="promo-code">#}
+                {#                <input type="text" name="promo-checkbox" placeholder="Enter your promo code here" checked>#}
+                {#                <button class="apply">Apply</button>#}
+                {#            </div>#}
+                {#            <button class="btn-go-checkout">#}
+                {#                <i class="fas fa-lock"></i>#}
+                {#                <span>Go to Checkout</span>#}
+                {#            </button>#}
+            </div>
+            <div class="help">
+                <p>Need help? Call free 01234 567 890</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg"></div>
+{% endblock content %}
+{% block jssscript %}
+{% endblock jssscript %}

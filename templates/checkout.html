@@ -1,0 +1,157 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block csslink %}
+    <link rel="stylesheet" href={% static 'css/checkout.css' %}>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel='stylesheet'
+          type='text/css'>
+{#    <link rel="stylesheet" href={% static 'css/reset.css' %}> <!-- CSS reset -->#}
+    <link rel="stylesheet" href={% static 'css/style.css' %}> <!-- Resource style -->
+    <link rel="stylesheet" href={% static 'css/index.css' %}>
+    <link rel="stylesheet" href={% static 'css/sds.css' %}>
+{% endblock csslink %}
+{% block content %}
+    <div>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom">
+            <a class="navbar-brand brandname ml-2 font-weight-bold"
+               href="{% url 'home' %}"><span id="burgundy">The</span><span
+                    id="orange">SuQ</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor"
+                    aria-controls="navbarColor" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span></button>
+{#            <div class="collapse navbar-collapse" id="navbarColor">#}
+{#                <ul class="navbar-nav">#}
+{#                    <li class="nav-item "><a class="nav-link" href="#"><span class="fa fa-shopping-cart"></span><span#}
+{#                            class="text">Cart</span></a></li>#}
+{#                </ul>#}
+{#            </div>#}
+            <div class="user-interactions">
+
+                <div class="cart">
+                    <img src="{% static "img/cart.png" %}" class="cart-icon" alt="">
+                    <span class="cart-item-count">00</span>
+                </div>
+                <div class="user">
+                    <a href="{% url 'signin' %}"><img src="{% static "img/user.png" %}" class="user-icon" alt=""></a>
+                </div>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-25">
+                <div class="container summery">
+                    <h4>Cart
+                        <span class="price" style="color:black">
+          <i class="fa fa-shopping-cart"></i>
+          <b>4</b>
+        </span>
+                    </h4>
+                    <p><a href="#">Product 1</a> <span class="price">$5</span></p>
+                    <p><a href="#">Product 2</a> <span class="price">$20</span></p>
+{#                    <p><a href="#">Product 3</a> <span class="price">$8</span></p>#}
+{#                    <p><a href="#">Product 4</a> <span class="price">$2</span></p>#}
+                    <hr>
+                    <p>Total <span class="price" style="color:black"><b>$25</b></span></p>
+                </div>
+            </div>
+            <div class="col-75">
+                <div class="container payment">
+                    <form action="{% url 'payment_summery' %}">
+
+                        <div class="row">
+                            <div class="col-50">
+                                <h3>Billing Address</h3>
+                                <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                                <input type="text" id="fname" class="medium-input" name="firstname"
+                                       placeholder="John M. Doe">
+                                <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                                <input type="text" id="email" class="medium-input" name="email"
+                                       placeholder="john@example.com">
+                                <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+                                <input type="text" id="adr" class="medium-input" name="address"
+                                       placeholder="542 W. 15th Street">
+                                <label for="city"><i class="fa fa-institution"></i> City</label>
+                                <input type="text" id="city" class="medium-input" name="city" placeholder="Katowice">
+
+                                <div class="row">
+                                    <div class="col-50">
+                                        <label for="state">State</label>
+                                        <input type="text" id="state" class="small-input" name="state" placeholder="">
+                                    </div>
+                                    <div class="col-50">
+                                        <label for="zip">Zip</label>
+                                        <input type="text" id="zip" class="small-input" name="zip" placeholder="10001">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-50">
+                                <h3>Payment</h3>
+                                <label for="fname">Accepted Cards</label>
+                                <div class="icon-container">
+                                    <i class="fa fa-cc-visa" style="color:navy;"></i>
+                                    <i class="fa fa-cc-amex" style="color:blue;"></i>
+                                    <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                                    <i class="fa fa-cc-discover" style="color:orange;"></i>
+                                </div>
+                                <label for="cname">Name on Card</label>
+                                <input type="text" id="cname" class="medium-input" name="cardname"
+                                       placeholder="John More Doe">
+                                <label for="ccnum">Credit card number</label>
+                                <input type="text" id="ccnum" name="cardnumber" class="medium-input"
+                                       placeholder="1111-2222-3333-4444">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" class="small-input" name="cvv" placeholder="352">
+                                <div class="row">
+                                    <div class="col-50">
+                                        <label for="expmonth">Exp Month</label>
+                                        {#                                <input type="text" id="expmonth" name="expmonth" placeholder="September">#}
+                                        <select id="expmonth" name="expmonth">
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+
+                                    </div>
+                                    <div class="col-50">
+                                        <label for="expyear">Exp Year</label>
+                                        <select id="expyear" name="expyear">
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                            <option value="2026">2026</option>
+                                            <option value="2027">2027</option>
+                                            <option value="2028">2028</option>
+                                            <option value="2029">2029</option>
+                                            <option value="2030">2030</option>
+                                            <option value="2031">2031</option>
+                                            <option value="2033">2033</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <label>
+                            <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+                        </label>
+                        <input type="submit" value="Order Now" class="btn">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock content %}
+{% block jssscript %}
+{% endblock jssscript %}

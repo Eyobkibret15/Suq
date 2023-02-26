@@ -58,13 +58,14 @@ async function getProducts() {
                 const col = document.createElement("div");
                 const cate = response[name]['categories']
                 const subcate = response[name]['subcategories']
-                col.className = 'col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 all ' + cate + ' ' + subcate
+                col.className = 'col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 all ' + cate + ' ' + subcate + ' ' + response[name]['price']
+                col.id = 'true,true,true,true'
                 const card = document.createElement("div");
                 card.className = 'card'
                 const img = document.createElement("img");
                 img.className = 'card-img-top'
                 img.src = "media/" + response[name]['images'][0]
-                img.id =    response[name]['id']
+                img.id = response[name]['id']
                 const card_body = document.createElement("div");
                 card_body.className = 'card-body'
                 const h5_tag = document.createElement("h5");
@@ -77,11 +78,17 @@ async function getProducts() {
                 rating.style.display = 'none'
                 h5_tag.append(b_tag)
                 h5_tag.append(rating)
+                const popularity = document.createElement("b");
+                popularity.className = 'popularity'
+                popularity.innerText = response[name]['popularity']
+                popularity.style.display = 'none'
+                h5_tag.append(popularity)
                 const d_flex = document.createElement("div");
                 d_flex.className = 'd-flex flex-row my-2'
                 const price = document.createElement("div");
                 price.className = 'text-muted'
                 price.id = 'price'
+                price.price = response[name]['price']
                 price.innerText = response[name]['price'] + ' zl'
                 const ml_auto = document.createElement("div");
                 ml_auto.className = 'ml-auto'
@@ -129,19 +136,27 @@ const select_categories = document.getElementsByClassName('filter categories')
 const select_subcategories = document.getElementsByClassName('filter subcategories')
 const select_sort = document.getElementById('sort')
 
-function FilterProdUct(selectedValue) {
+function FilterProdUct() {
     const row = document.getElementsByClassName("row")
     let divs = row[0].children
     for (let i = 0; i < divs.length; i++) {
-        if (!selectedValue) {
-            selectedValue = 'all'
-        }
-        if (divs[i].classList.contains(selectedValue)) {
+        id = divs[i].id.split(',')
+        if (id.every((elem) => elem === 'true')){
             divs[i].style.display = "block";
-        } else {
+        }
+        else {
             divs[i].style.display = "none";
         }
+
     }
+        // if (!selectedValue) {
+        //     selectedValue = 'all'
+        // }
+        // if (divs[i].classList.contains(selectedValue)) {
+        //     divs[i].style.display = "block";
+        // } else {
+        //     divs[i].style.display = "none";
+        // }
 }
 
 function PriceSort() {
@@ -165,7 +180,6 @@ function PriceSort() {
     for (let i = 0; i < divs.length; i++) {
         let price = divs[i].getElementsByClassName('text-muted')[0].innerHTML.slice(0, -3)
         divs[i].style.order = prices.indexOf(parseFloat(price))
-        console.log(divs[i].style.order)
     }
 }
 
@@ -174,8 +188,6 @@ function RatingSort() {
 
     let divs = row[0].children
     let ratings = [];
-
-// Extract prices from innerHTML of each div and store in prices array
     for (let i = 0; i < divs.length; i++) {
         let rating = divs[i].getElementsByClassName('rating')[0].innerHTML
         ratings.push(parseFloat(rating));
@@ -190,7 +202,28 @@ function RatingSort() {
     for (let i = 0; i < divs.length; i++) {
         let rating = divs[i].getElementsByClassName('rating')[0].innerHTML
         divs[i].style.order = ratings.indexOf(parseFloat(rating))
-        console.log(divs[i].style.order)
+    }
+}
+
+function PopularitySort() {
+    const row = document.getElementsByClassName("row")
+
+    let divs = row[0].children
+    let populars = [];
+    for (let i = 0; i < divs.length; i++) {
+        let popular = divs[i].getElementsByClassName('popularity')[0].innerHTML
+        populars.push(parseFloat(popular));
+    }
+
+// Sort prices arra
+    populars.sort(function (a, b) {
+        return a - b;
+    });
+
+// Reorder divs based on sorted prices array
+    for (let i = 0; i < divs.length; i++) {
+        let popular = divs[i].getElementsByClassName('popularity')[0].innerHTML
+        divs[i].style.order = populars.indexOf(parseFloat(popular))
     }
 }
 
@@ -201,6 +234,7 @@ select_categories[0].addEventListener("change", function () {
     var selectedValue = select_categories[0].value;
 
     // loop through options and hide/show them based on their class
+
     for (let i = 0; i < options.length; i++) {
         if (!selectedValue) {
             selectedValue = 'all'
@@ -211,14 +245,44 @@ select_categories[0].addEventListener("change", function () {
             options[i].style.display = "none";
         }
     }
-    select_subcategories[0].value = ''
-    FilterProdUct(selectedValue);
+    const row = document.getElementsByClassName("row")
+    let divs = row[0].children
+    for (let i = 0; i < divs.length; i++) {
+        id = divs[i].id.split(',')
+        if (!selectedValue) {
+            selectedValue = 'all'
+        }
+        if (divs[i].classList.contains(selectedValue)) {
+            id[0] = 'true'
+            id[1] = 'true'
+        } else {
+            id[0] = 'false'
+            id[1] = 'false'
+        }
+        divs[i].id = id[0] +',' +  id[1] + ',' +  id[2] + ',' + id[3]
 
+    }
+    FilterProdUct()
 });
 
 select_subcategories[0].addEventListener("change", function () {
     var selectedValue = select_subcategories[0].value;
-    FilterProdUct(selectedValue);
+    const row = document.getElementsByClassName("row")
+    let divs = row[0].children
+     if (!selectedValue) {
+            selectedValue = 'all'
+        }
+    for (let i = 0; i < divs.length; i++) {
+        id = divs[i].id.split(',')
+        console.log(divs[i].classList)
+        if (divs[i].classList.contains(selectedValue)) {
+            id[1] = 'true'
+        } else {
+            id[1] = 'false'
+        }
+        divs[i].id = id[0] +',' +  id[1] + ',' +  id[2] + ',' + id[3]
+    }
+    FilterProdUct()
 })
 
 select_sort.addEventListener('change', function () {
@@ -227,7 +291,112 @@ select_sort.addEventListener('change', function () {
         PriceSort();
     } else if (sortType === 'rating') {
         RatingSort();
+    } else if (sortType === 'popularity') {
+        PopularitySort();
     }
 })
 
+
+const filterInputs = document.querySelectorAll('.filter');
+const priceRadioInputs = document.querySelectorAll('input[name="price-f"]');
+const fromInput = document.querySelector('.from');
+const downInput = document.querySelector('.down');
+
+// Attach an event listener to each input
+filterInputs.forEach(function (input) {
+    input.addEventListener('change', function () {
+        let checkedValue = null;
+        let fromValue = null;
+        let downValue = null;
+
+        // Check which filter option the user selected
+        priceRadioInputs.forEach(function (radioInput) {
+            if (radioInput.checked) {
+                checkedValue = radioInput.value;
+            }
+        });
+
+        // Check if the text input fields have a value
+        if (fromInput.value.trim() !== '' && !isNaN(fromInput.value)) {
+            fromValue = parseFloat(fromInput.value);
+        }
+
+        if (downInput.value.trim() !== '' && !isNaN(downInput.value)) {
+            downValue = parseFloat(downInput.value);
+        }
+
+        console.log('Checked value:', checkedValue);
+        // Clear the text input fields when the radio buttons are clicked
+        priceRadioInputs.forEach(function (radioInput) {
+            radioInput.addEventListener('click', function () {
+                fromInput.value = '';
+                downInput.value = '';
+            });
+        });
+
+        // Uncheck the radio buttons when the text input fields are updated
+        fromInput.addEventListener('input', function () {
+            priceRadioInputs.forEach(function (radioInput) {
+                radioInput.checked = false;
+            });
+        });
+
+        downInput.addEventListener('input', function () {
+            priceRadioInputs.forEach(function (radioInput) {
+                radioInput.checked = false;
+            });
+        });
+
+        // Update the fromValue and downValue if checkedValue has a '-' separator
+        if (checkedValue && checkedValue.includes('-')) {
+            const values = checkedValue.split('-');
+            if (!isNaN(values[0])) {
+                fromValue = parseFloat(values[0]);
+            }
+            if (!isNaN(values[1])) {
+                downValue = parseFloat(values[1]);
+            }
+        }
+
+        // Update the UI based on the selected values
+        const row = document.getElementsByClassName("row")
+        let divs = row[0].children
+        if (!fromValue) {
+            fromValue = 0
+        }
+        if (!downValue) {
+            downValue = Infinity
+        }
+        console.log('From value:', fromValue);
+        console.log('Down value:', downValue);
+        for (let i = 0; i < divs.length; i++) {
+            let priceElement = divs[i].querySelector('#price');
+            priceTxt = priceElement.innerHTML
+            let extracted = priceTxt.split(" ")[0]; // extract text until space
+
+            if (!isNaN(extracted)) {
+                extracted = Number(extracted); // convert to number if it is a number
+            }
+            console.log("extracted",extracted)
+            console.log('a', extracted >= fromValue)
+            console.log('l', extracted <= downValue)
+            if (extracted && !isNaN(extracted)){
+                id = divs[i].id.split(',')
+                if (extracted >= fromValue && extracted <=downValue){
+                   id[2] = 'true'
+                }
+                else {
+                    id[2] = 'false'
+                }
+                 console.log(id)
+                 divs[i].id = id[0] +',' +  id[1] + ',' +  id[2] + ',' + id[3]
+                 console.log(divs[i].id)
+
+            }
+
+        }
+        //
+        FilterProdUct()
+    });
+});
 

@@ -438,3 +438,20 @@ h6 {
 .navbar {
     border-bottom: none !important;
 }
+
+.price-filter {
+    display: flex;
+    align-items: center;
+}
+
+.price-filter input {
+    width: 100px;
+    margin-right: 10px;
+}
+
+.separator {
+    margin: 0 10px;
+}
+.row {
+    margin-top: 50px;
+}

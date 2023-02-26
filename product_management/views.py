@@ -44,6 +44,7 @@ def product_detail(request,id:int):
 def product(request):
     products = Product.objects.filter(active=True)
     data = {}
+    count = 1
     for product in products:
         image_ids = product.images.all()
         images = []
@@ -58,8 +59,10 @@ def product(request):
         categories = product.subcategory_id.category_id.name
         subcategories = product.subcategory_id.name
         rating = product.owner.rating
+        popularity = count
+        count += 1
         id = product.id
-        data[product.name] = {'id':id,'images': images, 'discount': discount, 'price': price,'subcategories': subcategories,
+        data[product.name] = {'id':id,'popularity':popularity, 'images': images, 'discount': discount, 'price': price,'subcategories': subcategories,
                               'description': description, 'quantity': quantity,'categories': categories, 'rating':rating}
     return Response(data=data, status=status.HTTP_200_OK)
 

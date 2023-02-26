@@ -1,4 +1,7 @@
 function ProductCardClicked(event) {
      id = event.target.id
-     window.location.href = "product/" + id;
+     if ((id) && (!isNaN(id))){
+          window.location.href = "product/" + id;
+     }
+
 }

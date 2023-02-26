@@ -30,3 +30,11 @@ def ppic(request):
     else:
         form = HotelForm()
     return render(request, 'img.html', {'form': form})
+
+@api_view(['GET'])
+def checkout(request):
+    return render(request, 'checkout.html')
+
+@api_view(['GET'])
+def payment_summery(request):
+    return render(request, 'payment_summery.html    ')
