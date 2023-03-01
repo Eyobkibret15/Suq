@@ -10,14 +10,15 @@ from product_management.models import ProductCategory, Product
 def home(request):
     return render(request, 'check.html')
 
+
 @api_view(['GET'])
-def product_page(request,id):
+def product_page(request, id):
     return render(request, 'product_detail.html')
 
 
 @api_view(['GET'])
-def product_detail(request,id:int):
-    product = Product.objects.get(active=True,id=id)
+def product_detail(request, id: int):
+    product = Product.objects.get(active=True, id=id)
     data = {}
     image_ids = product.images.all()
     images = []
@@ -33,12 +34,13 @@ def product_detail(request,id:int):
     subcategories = product.subcategory_id.name
     rating = product.owner.rating
     id = product.id
-    name  = product.name
-    data= {'id': id,'name':name,  'images': images, 'discount': discount, 'price': price,
-                          'subcategories': subcategories,
-                          'description': description, 'quantity': quantity, 'categories': categories,
-                          'rating': rating}
+    name = product.name
+    data = {'id': id, 'name': name, 'images': images, 'discount': discount, 'price': price,
+            'subcategories': subcategories,
+            'description': description, 'quantity': quantity, 'categories': categories,
+            'rating': rating}
     return Response(data=data, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def product(request):
@@ -60,10 +62,21 @@ def product(request):
         subcategories = product.subcategory_id.name
         rating = product.owner.rating
         popularity = count
+        shipping = product.shipping_method
+        if shipping.free_return and shipping.free_delivery:
+            shipping_option = 'F-D-R'
+        elif shipping.free_delivery:
+            shipping_option = 'F-D'
+        elif shipping.free_return:
+            shipping_option = 'F-R'
+        else:
+            shipping_option = 'ST'
         count += 1
         id = product.id
-        data[product.name] = {'id':id,'popularity':popularity, 'images': images, 'discount': discount, 'price': price,'subcategories': subcategories,
-                              'description': description, 'quantity': quantity,'categories': categories, 'rating':rating}
+        data[product.name] = {'id': id, 'shipping_option': shipping_option, 'popularity': popularity, 'images': images,
+                              'discount': discount, 'price': price, 'subcategories': subcategories,
+                              'description': description, 'quantity': quantity, 'categories': categories,
+                              'rating': rating}
     return Response(data=data, status=status.HTTP_200_OK)
 
 
@@ -74,7 +87,7 @@ def filters(request):
     for cate in categories:
         data['categories'][cate.name] = cate.name
         sub_categories = cate.productsubcategory_set.all()
-        data['categories'][cate.name] = {'subcategories':[]}
+        data['categories'][cate.name] = {'subcategories': []}
         for subccate in sub_categories:
             data['categories'][cate.name]['subcategories'].append(subccate.name)
     return Response(data=data, status=status.HTTP_200_OK)

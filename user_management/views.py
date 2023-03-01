@@ -1,6 +1,11 @@
 import json
 import os
 
+from django.contrib import auth
+from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -8,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework.request import Request
 
 from user_management.forms import HotelForm, RegisterForm
-from user_management.models import User
+from user_management.models import UserProfile
 from user_management.serialization import UserSerializer
 from django.contrib.auth.hashers import check_password
 
@@ -19,11 +24,22 @@ def signin(request):
         return render(request, 'signin.html')
     else:
         email = request.data['email']
-        user = User.objects.filter(email=email)
+        user = UserProfile.objects.filter(email=email)
         if user.exists() and check_password(request.data['password'], user.first().password):
+            django_user = auth.authenticate(username=email, password=request.data['password'])
+            auth.login(request, django_user)
+            request.session['user_id'] = user.first().id  # Store user id in session
+            print('sign in', user.first().id, request.session.get('user_id'))
             return redirect('home')
         else:
             return render(request, 'signin.html', context={'data': 'invalid user name or password'})
+
+
+@api_view(['GET'])
+def signout(request):
+    logout(request)
+    request.session['user_id'] = None
+    return redirect('home')
 
 
 @api_view(['GET', 'POST'])
@@ -35,9 +51,27 @@ def signup(request):
         data = request.data
         data['telephone'] = data['countryCode'] + data['phone']
         user = UserSerializer(data=data)
-        if user.is_valid():
+        user_valid = user.is_valid()
+
+        # check if the instance is valid to save
+        try:
+            my_instance = User(username=request.data['email'],is_superuser=True, is_staff=True)
+            my_instance.set_password(request.data['password'])
+            my_instance.full_clean()
+        except ValidationError as e:
+            return render(request, 'signup.html', context={'data': str(e)})
+        except ValueError as e:
+            return render(request, 'signup.html',
+                          context={'data': 'Invalid password format or unknown hashing algorithm.'})
+        if user_valid:
             user.save()
-            return render(request, 'index.html')
+            my_instance.save()
+            user_prof = UserProfile.objects.get(email=request.data['email'])
+            django_user = auth.authenticate(username=request.data['email'], password=request.data['password'])
+            auth.login(request, django_user)
+            request.session['user_id'] = user_prof.id  # Store user id in session
+            print('sign up', user_prof.id, request.session.get('user_id'))
+            return redirect('home')
         else:
             data = json.dumps(user.errors)
             return render(request, 'signup.html', context={'data': data})

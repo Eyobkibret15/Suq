@@ -37,11 +37,20 @@
                 <span class="cart-item-count">00</span>
             </div>
             <div class="user">
-                <a href="{% url 'signin' %}"><img src="{% static "img/user.png" %}" class="user-icon" alt=""></a>
+                <a href="{% url 'admin:user_management_userprofile_change' user_id %}"><img
+                        src="{% static "img/user.png" %}" class="user-icon" alt=""></a>
             </div>
-            <div class="user">
-                <a href="{% url 'signin' %}">LogIn</a>
-            </div>
+            {% if user_id %}
+                <div class="user">
+                    <a href="{% url 'signout' %}">LogOut </a>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+            {% else %}
+                <div class="user">
+                    <a href="{% url 'signin' %}">LogIn</a>
+                </div>
+                &nbsp;&nbsp;&nbsp;
+            {% endif %}
             <div class="user">
                 <a href="{% url 'admin:index' %}">Admin </a>
             </div>
@@ -94,25 +103,30 @@
                     <h4>Price (PLN)</h4>
 
                     <ul class="cd-filter-content cd-filters list">
-                          <li>
-                            <input name="price-f" value="-100" class="filter" data-filter=".check2" type="radio" id="checkbox2">
+                        <li>
+                            <input name="price-f" value="-100" class="filter" data-filter=".check2" type="radio"
+                                   id="checkbox2">
                             <label class="checkbox-label" for="checkbox2">Below 100 PLN</label>
                         </li>
                         <li>
-                            <input name="price-f" value="100-500" class="filter" data-filter=".check2" type="radio" id="checkbox2">
+                            <input name="price-f" value="100-500" class="filter" data-filter=".check2" type="radio"
+                                   id="checkbox2">
                             <label class="checkbox-label" for="checkbox2">PLN 100 to PLN 500</label>
                         </li>
 
                         <li>
-                            <input name="price-f" value="500-100" class="filter" data-filter=".check3" type="radio" id="checkbox3">
+                            <input name="price-f" value="500-100" class="filter" data-filter=".check3" type="radio"
+                                   id="checkbox3">
                             <label class="checkbox-label" for="checkbox3">PLN 500 to PLN 1000</label>
                         </li>
                         <li>
-                            <input name="price-f" value="1000-2000" class="filter" data-filter=".check3" type="radio" id="checkbox3">
+                            <input name="price-f" value="1000-2000" class="filter" data-filter=".check3" type="radio"
+                                   id="checkbox3">
                             <label class="checkbox-label" for="checkbox3">PLN 1000 to PLN 2000</label>
                         </li>
                         <li>
-                            <input name="price-f" value="2000-" class="filter" data-filter=".check3" type="radio" id="checkbox3">
+                            <input name="price-f" value="2000-" class="filter" data-filter=".check3" type="radio"
+                                   id="checkbox3">
                             <label class="checkbox-label" for="checkbox3">above 2000 PLN</label>
                         </li>
                         <li>
@@ -126,24 +140,29 @@
                         </li>
                     </ul> <!-- cd-filter-content -->
                 </div> <!-- cd-filter-block -->
-                <div class="cd-filter-block">
-                    <h4>Free shipping and returns</h4>
+                <div class="cd-filter-block f-d-r">
+                    <h4>Free Delivery and Return Above 1000 PLN order</h4>
 
-                    <ul class="cd-filter-content cd-filters list">
+                    <ul class="cd-filter-content cd-filters list shipping-method">
                         <li>
-                            <input class="filter" data-filter="" type="radio" name="radioButton" id="radio1" checked>
-                            <label class="radio-label" for="radio1">All</label>
+                            <input class="filter" data-filter="" value="F-D-R" type="checkbox" name="radioButton"
+                                   id="radio1">
+                            <label class="radio-label" for="radio1">Free delivery and Free return</label>
                         </li>
 
-                        <li>
-                            <input class="filter" data-filter=".radio2" type="radio" name="radioButton" id="radio2">
-                            <label class="radio-label" for="radio2">Free shipping</label>
-                        </li>
-
-                        <li>
-                            <input class="filter" data-filter=".radio3" type="radio" name="radioButton" id="radio3">
-                            <label class="radio-label" for="radio3">Free Return</label>
-                        </li>
+                        {#                        <li>#}
+                        {#                            <input class="filter" data-filter=".radio2" value="F-D" type="radio" name="radioButton" id="radio2">#}
+                        {#                            <label class="radio-label" for="radio2">Free Delivery</label>#}
+                        {#                        </li>#}
+                        {##}
+                        {#                        <li>#}
+                        {#                            <input class="filter" data-filter=".radio3" value="F-R" type="radio" name="radioButton" id="radio3">#}
+                        {#                            <label class="radio-label" for="radio3">Free Return</label>#}
+                        {#                        </li>#}
+                        {#                        <li>#}
+                        {#                            <input class="filter" data-filter=".radio4" value="ST" type="radio" name="radioButton" id="radio4">#}
+                        {#                            <label class="radio-label" for="radio4">Standard</label>#}
+                        {#                        </li>#}
                     </ul> <!-- cd-filter-content -->
                 </div> <!-- cd-filter-block -->
             </form>
@@ -156,10 +175,10 @@
     </section>
     <section class="best-selling-product-section">
         {#    <h1 class="section-title">best selling products</h1>#}
-        <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
-            <input type="text" placeholder="Search.." name="search2">
-            <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
+            <form class="example" action="/action_page.php" style="margin:auto;max-width:300px">
+                <input type="text" placeholder="Search.." name="search2">
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
         <div class="container">
             <div class="d-flex flex-row">
                 {#                <div class="text-muted m-2" id="res">Showing 44 results</div>#}
@@ -181,9 +200,9 @@
     <section class="image-mid-section">
         <div class="image-collage">
             <div class="image-collection">
-                <img src="{% static "img/laptop.jpg" %}" class="collage-img" alt="">
-                <img src="{% static "img/cris.jpg" %}" class="collage-img" alt="">
-                <img src="{% static "img/chanel5.png" %}" class="collage-img" alt="">
+{#                <img src="{% static "img/laptop.jpg" %}" class="collage-img" alt="">#}
+{#                <img src="{% static "img/chanel5.png" %}" class="collage-img" alt="">#}
+{#                <img src="{% static "img/tshirt-1.png" %}" class="collage-img" alt="">#}
             </div>
         </div>
     </section>

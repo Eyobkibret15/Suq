@@ -8,7 +8,11 @@ from user_management.models import Img
 
 @api_view(['GET'])
 def home(request):
-    return render(request, 'index.html')
+    user_id = request.session.get('user_id')
+    context = {'user_id': user_id}
+    print('index',user_id, context)
+    return render(request, 'index.html', context)
+
 
 @api_view(['GET'])
 def filter(request):

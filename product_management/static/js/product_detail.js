@@ -1,7 +1,7 @@
 function getProductDetail() {
     var base_url = window.location.origin;
     var id = window.location.toString()
-    let _id = id.charAt(id.length - 1);
+    let _id = id.substring(id.lastIndexOf('/') + 1)
     $.ajax({
         type: 'GET',
         url: base_url + '/product/detail/' + _id,

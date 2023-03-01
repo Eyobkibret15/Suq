@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from user_management.models import User
+from user_management.models import UserProfile
 
 
 class ProductCategory(models.Model):
@@ -95,11 +95,35 @@ class ProductImage(models.Model):
         return self.name
 
 
+class ShippingMethod(models.Model):
+    free_delivery = models.BooleanField(default=False)
+    free_return = models.BooleanField(default=False)
+    created_at = models.DateTimeField(editable=False)
+    modified_at = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        """ On save, update timestamps """
+        if not self.id:
+            self.created_at = timezone.now()
+        self.modified_at = timezone.now()
+        return super(ShippingMethod, self).save(*args, **kwargs)
+
+    def __str__(self):
+        if self.free_return and self.free_delivery:
+            return 'Free delivery and return'
+        elif self.free_delivery:
+            return 'Free Delivery'
+        elif self.free_return:
+            return 'Free Return'
+        else:
+            return 'standard'
+
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
     price = models.FloatField()
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     active = models.BooleanField(default=False)
     subcategory_id = models.ForeignKey(ProductSubCategory, on_delete=models.CASCADE)
     inventory_id = models.ForeignKey(ProductInventory, on_delete=models.CASCADE)
@@ -108,6 +132,7 @@ class Product(models.Model):
     modified_at = models.DateTimeField(null=True, blank=True)
     description = models.TextField()
     images = models.ManyToManyField(ProductImage)
+    shipping_method = models.ForeignKey(ShippingMethod, on_delete=models.SET_NULL,null=True   )
 
     def save(self, *args, **kwargs):
         """ On save, update timestamps """

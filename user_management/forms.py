@@ -10,5 +10,5 @@ class HotelForm(forms.ModelForm):
 
 class RegisterForm(forms.ModelForm):
     class Meta:
-        model = User
+        model = UserProfile
         fields = '__all__'

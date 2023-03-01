@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from product_management.models import Product
-from user_management.models import User
+from user_management.models import UserProfile
 
 
 class PaymentDetail(models.Model):
@@ -27,7 +27,7 @@ class PaymentDetail(models.Model):
 
 class OrderDetail(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     payment_id = models.ForeignKey(PaymentDetail, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(editable=False)
@@ -65,7 +65,7 @@ class OrderItem(models.Model):
 
 class ShoppingSession(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10,decimal_places=2)
     created_at = models.DateTimeField(editable=False)
     modified_at = models.DateTimeField(null=True, blank=True)

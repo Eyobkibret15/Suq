@@ -3,7 +3,8 @@ from django.utils import timezone
 from django_iban.fields import IBANField, SWIFTBICField
 from django.contrib.auth.hashers import make_password
 
-class User(models.Model):
+
+class UserProfile(models.Model):
     id = models.AutoField(primary_key=True)
     password = models.CharField(max_length=250)
     first_name = models.CharField(max_length=250)
@@ -13,10 +14,11 @@ class User(models.Model):
     gender = models.CharField(choices=gender_choices, max_length=1)
     date_of_birth = models.DateField(blank=True, null=True)
     telephone = models.IntegerField(unique=True)
-    profile_picture = models.ImageField(default='default.jpg', upload_to='profile_pics', blank=True)  # You need to configure media in settings.py
+    profile_picture = models.ImageField(default='default.jpg', upload_to='profile_pics',
+                                        blank=True)  # You need to configure media in settings.py
     created_at = models.DateTimeField(editable=False)
-    rating = models.FloatField(null=True,blank=True, max_length=5)
-    modified_at = models.DateTimeField(null=True,blank=True)
+    rating = models.FloatField(null=True, blank=True, max_length=5)
+    modified_at = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         """ On save, update timestamps """
@@ -24,16 +26,21 @@ class User(models.Model):
             self.created_at = timezone.now()
         self.modified_at = timezone.now()
         self.password = make_password(self.password)
-        return super(User, self).save(*args, **kwargs)
+        return super(UserProfile, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.first_name + " " + self.last_name
+
+
 class Img(models.Model):
     name = models.CharField(max_length=50)
-    ppic = models.ImageField(default='default.jpg', upload_to='profile_pics', blank=True)  # You need to configure media in settings.py
+    ppic = models.ImageField(default='default.jpg', upload_to='profile_pics',
+                             blank=True)  # You need to configure media in settings.py
+
 
 class UserAddress(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     permanent_address = models.CharField(max_length=250)
     correspondence_address = models.CharField(max_length=250)
     city = models.CharField(max_length=250)
@@ -52,9 +59,10 @@ class UserAddress(models.Model):
     def __str__(self):
         return self.user_id.username
 
+
 class UserPayment(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     payment_type = models.CharField(max_length=250)
     provider = models.CharField(max_length=250)
     account_number = IBANField()

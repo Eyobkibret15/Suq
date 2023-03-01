@@ -17,7 +17,7 @@
             </div>
         </nav>
     </header>
-    <p>{{ data }}</p>
+
     <div class="container">
         <div class="row py-5 mt-4 align-items-center">
             <!-- For Demo Purpose -->
@@ -36,7 +36,7 @@
             <div class="col-md-7 col-lg-6 ml-auto">
                 <form action="{% url 'signup' %}" method="post">{% csrf_token %}
                     <div class="row">
-
+                        <p style="color: red">{{ data }}</p>
                         <!-- First Name -->
                         <div class="input-group col-lg-6 mb-4">
                             <div class="input-group-prepend">
@@ -333,7 +333,14 @@
                             </span>
                             </div>
                             <input id="password" type="password" name="password" placeholder="Password"
-                                   class="form-control bg-white border-left-0 border-md" required>
+                                   class="form-control bg-white border-left-0 border-md" required
+                                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':&quot;\\|,.<>\/?])(?=.*[^\da-zA-Z]).{8,}$"
+                                   title="Your password must contain at least 8 characters, including at least one number, one lowercase letter, one uppercase letter, and one special character."/>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="passwordToggle">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Password Confirmation -->
@@ -343,9 +350,16 @@
                                 <i class="fa fa-lock text-muted"></i>
                             </span>
                             </div>
-                            <input id="passwordConfirmation" type="text" name="passwordConfirmation"
-                                   placeholder="Confirm Password" class="form-control bg-white border-left-0 border-md"
-                                   required>
+                            <input id="passwordConfirmation" type="password" name="passwordConfirmation"
+                                   placeholder="Confirm Password"
+                                   class="form-control bg-white border-left-0 border-md" required
+                                   pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':&quot;\\|,.<>\/?])(?=.*[^\da-zA-Z]).{8,}$"
+                                   title="Your password confirmation must match the password field."/>
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button" id="passwordConfirmationToggle">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <!-- Submit Button -->
@@ -368,10 +382,10 @@
                                 <i class="fa fa-facebook-f mr-2"></i>
                                 <span class="font-weight-bold">Continue with Google</span>
                             </a>
-{#                            <a href="#" class="btn btn-primary btn-block py-2 btn-twitter">#}
-{#                                <i class="fa fa-twitter mr-2"></i>#}
-{#                                <span class="font-weight-bold">Continue with FaceBook</span>#}
-{#                            </a>#}
+                            {#                            <a href="#" class="btn btn-primary btn-block py-2 btn-twitter">#}
+                            {#                                <i class="fa fa-twitter mr-2"></i>#}
+                            {#                                <span class="font-weight-bold">Continue with FaceBook</span>#}
+                            {#                            </a>#}
                         </div>
 
                         <!-- Already Registered -->

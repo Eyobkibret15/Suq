@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from user_management.models import User, UserAddress, UserPayment, Img
+from user_management.models import UserProfile, UserAddress, UserPayment, Img
 
 
-@admin.register(User)
+@admin.register(UserProfile)
 class UserAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at','modified_at')
     class Meta:

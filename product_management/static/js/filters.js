@@ -50,6 +50,7 @@ async function getProducts() {
         dataType: 'json',
         success: function (response) {
             const row = document.getElementsByClassName("row")
+            const img_col = document.getElementsByClassName('image-collection')
             Object.keys(response).forEach((name) => {
                 const link = document.createElement('a')
                 link.className = 'productlink'
@@ -58,7 +59,7 @@ async function getProducts() {
                 const col = document.createElement("div");
                 const cate = response[name]['categories']
                 const subcate = response[name]['subcategories']
-                col.className = 'col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 all ' + cate + ' ' + subcate + ' ' + response[name]['price']
+                col.className = 'col-lg-4 col-md-6 col-sm-10 offset-md-0 offset-sm-1 all ' + cate + ' ' + subcate + ' ' + response[name]['price'] + ' ' + response[name]['shipping_option']
                 col.id = 'true,true,true,true'
                 const card = document.createElement("div");
                 card.className = 'card'
@@ -112,6 +113,14 @@ async function getProducts() {
                 // const button3 = document.createElement("button");
                 // button3.className = 'btn w-100 rounded my-2'
                 // button3.innerText = 'Add to cart'
+                const img2 = document.createElement("img");
+                img2.className = 'collage-img'
+                img2.src = "media/" + response[name]['images'][0]
+                img2.id = response[name]['id']
+                if (["20", "19", "26"].includes(img2.id)) {
+                    img2.setAttribute("onclick", "ProductCardClicked(event)");
+                    img_col[0].append(img2)
+                }
                 card_body.append(h5_tag, d_flex)
                 card.append(img, card_body)
                 link.append(card)
@@ -135,28 +144,28 @@ getProducts();
 const select_categories = document.getElementsByClassName('filter categories')
 const select_subcategories = document.getElementsByClassName('filter subcategories')
 const select_sort = document.getElementById('sort')
+const shipping_method = document.getElementsByClassName('f-d-r')
 
 function FilterProdUct() {
     const row = document.getElementsByClassName("row")
     let divs = row[0].children
     for (let i = 0; i < divs.length; i++) {
         id = divs[i].id.split(',')
-        if (id.every((elem) => elem === 'true')){
+        if (id.every((elem) => elem === 'true')) {
             divs[i].style.display = "block";
-        }
-        else {
+        } else {
             divs[i].style.display = "none";
         }
 
     }
-        // if (!selectedValue) {
-        //     selectedValue = 'all'
-        // }
-        // if (divs[i].classList.contains(selectedValue)) {
-        //     divs[i].style.display = "block";
-        // } else {
-        //     divs[i].style.display = "none";
-        // }
+    // if (!selectedValue) {
+    //     selectedValue = 'all'
+    // }
+    // if (divs[i].classList.contains(selectedValue)) {
+    //     divs[i].style.display = "block";
+    // } else {
+    //     divs[i].style.display = "none";
+    // }
 }
 
 function PriceSort() {
@@ -259,7 +268,7 @@ select_categories[0].addEventListener("change", function () {
             id[0] = 'false'
             id[1] = 'false'
         }
-        divs[i].id = id[0] +',' +  id[1] + ',' +  id[2] + ',' + id[3]
+        divs[i].id = id[0] + ',' + id[1] + ',' + id[2] + ',' + id[3]
 
     }
     FilterProdUct()
@@ -269,9 +278,9 @@ select_subcategories[0].addEventListener("change", function () {
     var selectedValue = select_subcategories[0].value;
     const row = document.getElementsByClassName("row")
     let divs = row[0].children
-     if (!selectedValue) {
-            selectedValue = 'all'
-        }
+    if (!selectedValue) {
+        selectedValue = 'all'
+    }
     for (let i = 0; i < divs.length; i++) {
         id = divs[i].id.split(',')
         console.log(divs[i].classList)
@@ -280,7 +289,7 @@ select_subcategories[0].addEventListener("change", function () {
         } else {
             id[1] = 'false'
         }
-        divs[i].id = id[0] +',' +  id[1] + ',' +  id[2] + ',' + id[3]
+        divs[i].id = id[0] + ',' + id[1] + ',' + id[2] + ',' + id[3]
     }
     FilterProdUct()
 })
@@ -324,8 +333,6 @@ filterInputs.forEach(function (input) {
         if (downInput.value.trim() !== '' && !isNaN(downInput.value)) {
             downValue = parseFloat(downInput.value);
         }
-
-        console.log('Checked value:', checkedValue);
         // Clear the text input fields when the radio buttons are clicked
         priceRadioInputs.forEach(function (radioInput) {
             radioInput.addEventListener('click', function () {
@@ -367,8 +374,6 @@ filterInputs.forEach(function (input) {
         if (!downValue) {
             downValue = Infinity
         }
-        console.log('From value:', fromValue);
-        console.log('Down value:', downValue);
         for (let i = 0; i < divs.length; i++) {
             let priceElement = divs[i].querySelector('#price');
             priceTxt = priceElement.innerHTML
@@ -377,21 +382,14 @@ filterInputs.forEach(function (input) {
             if (!isNaN(extracted)) {
                 extracted = Number(extracted); // convert to number if it is a number
             }
-            console.log("extracted",extracted)
-            console.log('a', extracted >= fromValue)
-            console.log('l', extracted <= downValue)
-            if (extracted && !isNaN(extracted)){
+            if (extracted && !isNaN(extracted)) {
                 id = divs[i].id.split(',')
-                if (extracted >= fromValue && extracted <=downValue){
-                   id[2] = 'true'
-                }
-                else {
+                if (extracted >= fromValue && extracted <= downValue) {
+                    id[2] = 'true'
+                } else {
                     id[2] = 'false'
                 }
-                 console.log(id)
-                 divs[i].id = id[0] +',' +  id[1] + ',' +  id[2] + ',' + id[3]
-                 console.log(divs[i].id)
-
+                divs[i].id = id[0] + ',' + id[1] + ',' + id[2] + ',' + id[3]
             }
 
         }
@@ -400,3 +398,27 @@ filterInputs.forEach(function (input) {
     });
 });
 
+shipping_method[0].addEventListener('change', function () {
+    const radioButtons = shipping_method[0].querySelectorAll('.filter[type="checkbox"]');
+    console.log(radioButtons)
+    var selectedValue = null
+    for (const radioButton of radioButtons) {
+        console.log(radioButton.checked)
+        if (radioButton.checked) {
+            selectedValue = radioButton.value;
+        }
+    }
+    const row = document.getElementsByClassName("row")
+    let divs = row[0].children
+
+    for (let i = 0; i < divs.length; i++) {
+        id = divs[i].id.split(',')
+        if ((divs[i].classList.contains(selectedValue)) || !selectedValue) {
+            id[3] = 'true'
+        } else {
+            id[3] = 'false'
+        }
+        divs[i].id = id[0] + ',' + id[1] + ',' + id[2] + ',' + id[3]
+    }
+    FilterProdUct()
+})
