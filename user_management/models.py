@@ -80,3 +80,24 @@ class UserPayment(models.Model):
 
     def __str__(self):
         return self.user_id.username
+
+
+class CustomerRequest(models.Model):
+    id = models.AutoField(primary_key=True)
+    user_id = models.ForeignKey(UserProfile, on_delete=models.PROTECT)
+    subject = models.CharField(max_length=10000)
+    message = models.TextField()
+    attach_file = models.ImageField(default='default.jpg', upload_to='contact_form',
+                                        blank=True)
+    created_at = models.DateTimeField(editable=False)
+    modified_at = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        """ On save, update timestamps """
+        if not self.id:
+            self.created_at = timezone.now()
+        self.modified_at = timezone.now()
+        return super(CustomerRequest, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.subject

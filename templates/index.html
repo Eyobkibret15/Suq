@@ -33,8 +33,8 @@
         <div class="user-interactions">
 
             <div class="cart">
-                <img src="{% static "img/cart.png" %}" class="cart-icon" alt="">
-                <span class="cart-item-count">00</span>
+                <a  href="{% url 'checkout' %}" ><img src="{% static "img/cart.png" %}" class="cart-icon" alt="">
+                        <span class="cart-item-count">00</span></a>
             </div>
             <div class="user">
                 <a href="{% url 'admin:user_management_userprofile_change' user_id %}"><img

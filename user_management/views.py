@@ -1,20 +1,18 @@
 import json
-import os
 
 from django.contrib import auth
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.request import Request
 
-from user_management.forms import HotelForm, RegisterForm
-from user_management.models import UserProfile
-from user_management.serialization import UserSerializer
+from user_management.forms import HotelForm
+from user_management.models import UserProfile, CustomerRequest
+from user_management.serialization import UserSerializer, ContactFormSerializer
 from django.contrib.auth.hashers import check_password
 
 
@@ -29,7 +27,6 @@ def signin(request):
             django_user = auth.authenticate(username=email, password=request.data['password'])
             auth.login(request, django_user)
             request.session['user_id'] = user.first().id  # Store user id in session
-            print('sign in', user.first().id, request.session.get('user_id'))
             return redirect('home')
         else:
             return render(request, 'signin.html', context={'data': 'invalid user name or password'})
@@ -55,7 +52,7 @@ def signup(request):
 
         # check if the instance is valid to save
         try:
-            my_instance = User(username=request.data['email'],is_superuser=True, is_staff=True)
+            my_instance = User(username=request.data['email'], is_superuser=True, is_staff=True)
             my_instance.set_password(request.data['password'])
             my_instance.full_clean()
         except ValidationError as e:
@@ -70,7 +67,6 @@ def signup(request):
             django_user = auth.authenticate(username=request.data['email'], password=request.data['password'])
             auth.login(request, django_user)
             request.session['user_id'] = user_prof.id  # Store user id in session
-            print('sign up', user_prof.id, request.session.get('user_id'))
             return redirect('home')
         else:
             data = json.dumps(user.errors)
@@ -91,3 +87,16 @@ def profile_pic(request: Request):
 @api_view(['POST'])
 def register(request: Request):
     pass
+
+
+@api_view(['POST'])
+def contact_form(request: Request):
+    data = dict(request.data)
+    id = request.session.get('user_id')
+    if not id:
+        return Response(status=400)
+    user = UserProfile.objects.get(id=id)
+    data = {'user_id': user, 'subject': data['subject'][0], 'message': data['message'][0], 'attach_file' : data['attachment'][0]}
+    cus_req =CustomerRequest.objects.create(**data)
+    return Response(status=201)
+    # return redirect('home')

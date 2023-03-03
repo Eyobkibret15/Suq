@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from user_management.models import UserProfile, UserAddress, UserPayment, Img
+from user_management.models import UserProfile, UserAddress, UserPayment, CustomerRequest, Img
 
 
 @admin.register(UserProfile)
@@ -21,6 +21,11 @@ class UserAddressAdmin(admin.ModelAdmin):
     class Meta:
         verbose_name = 'User Address'
 
+@admin.register(CustomerRequest)
+class CustomerRewquestAdmin(admin.ModelAdmin):
+    readonly_fields = ('created_at','modified_at')
+    class Meta:
+        verbose_name = 'Customer Request'
 
 @admin.register(UserPayment)
 class UserPaymentAdmin(admin.ModelAdmin):

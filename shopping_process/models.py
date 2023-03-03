@@ -63,27 +63,26 @@ class OrderItem(models.Model):
         return str(self.order_id)
 
 
-class ShoppingSession(models.Model):
-    id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    total = models.DecimalField(max_digits=10,decimal_places=2)
-    created_at = models.DateTimeField(editable=False)
-    modified_at = models.DateTimeField(null=True, blank=True)
-
-    def save(self, *args, **kwargs):
-        """ On save, update timestamps """
-        if not self.id:
-            self.created_at = timezone.now()
-        self.modified_at = timezone.now()
-        return super(ShoppingSession, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return str(self.id)
+# class ShoppingSession(models.Model):
+#     id = models.CharField(max_length=100, primary_key=True)
+#     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+#     created_at = models.DateTimeField(null=True,editable=False)
+#     modified_at = models.DateTimeField(null=True, blank=True)
+#
+#     def save(self, *args, **kwargs):
+#         """ On save, update timestamps """
+#         if not self.id:
+#             self.created_at = timezone.now()
+#         self.modified_at = timezone.now()
+#         return super(ShoppingSession, self).save(*args, **kwargs)
+#
+#     def __str__(self):
+#         return str(self.user_id.first_name + ' ' + self.user_id.last_name)
 
 
 class CartItem(models.Model):
     id = models.AutoField(primary_key=True)
-    session_id = models.ForeignKey(ShoppingSession, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     created_at = models.DateTimeField(editable=False)
@@ -97,5 +96,5 @@ class CartItem(models.Model):
         return super(CartItem, self).save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.id)
+        return str(self.user_id.first_name + ' ' + self.user_id.last_name + ' - ' + self.product_id.name )
 

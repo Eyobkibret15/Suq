@@ -121,12 +121,12 @@ box-sizing: border-box
 }
 
 .form-group {
-    margin-bottom: 5px
+    margin-bottom: 0px
 }
 
-label {
-    padding-left: 10px
-}
+/*label {*/
+/*    padding-left: 10px*/
+/*}*/
 
 .form-group:last-child {
     margin-bottom: 0
