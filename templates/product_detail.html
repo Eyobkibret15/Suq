@@ -129,9 +129,9 @@
                     <span class="divider"></span>
 
                     <div class="product-btn-group">
-                        <a href={% url 'checkout' %}><div class="button buy-now"><i class='bx bxs-zap'></i> Buy Now</div></a>
-                        <div class="button add-cart"><i class='bx bxs-cart'></i> Add to Cart</div>
-                        <div class="button heart"><i class='bx bxs-heart'></i> Add to Wishlist</div>
+                        <a href={% url 'checkout' %}><div class="button buy-now" onclick="add_to_cart(event)"><i class='bx bxs-zap'></i> Buy Now</div></a>
+                        <div class="button add-cart" onclick="add_to_cart(event)"><i class='bx bxs-cart'></i> Add to Cart</div>
+                        <div class="button heart" onclick="addToWishlist()"><i class='bx bxs-heart'></i> Add to Wishlist</div>
                     </div>
                 </div>
             </div>

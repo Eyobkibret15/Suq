@@ -41,13 +41,15 @@ INSTALLED_APPS = [
     'product_management',
     'shopping_process',
     'django_iban',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -131,3 +133,5 @@ MEDIA_URL = '/media/' # Public URL at the browser
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ADMIN_SITE_TITLE = 'My Custom Admin'
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_HEADERS = [    'accept',    'accept-encoding',    'authorization',    'content-type',    'dnt',    'origin',    'user-agent',    'x-csrftoken',    'x-requested-with',]

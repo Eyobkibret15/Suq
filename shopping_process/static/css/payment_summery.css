@@ -70,10 +70,7 @@ nav {
 	        align-items: center;
 	background: $blue;  }
 
-a {
-	padding: 0.2rem 0.5rem;
-	border: 2px solid white;
-	text-decoration: none; }
+
 
 .logo { font-family: $font-head; }
 

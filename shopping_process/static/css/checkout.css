@@ -27,7 +27,7 @@
 
 .col-25 {
   /*-ms-flex: 25%; !* IE10 *!*/
-  flex: 25%;
+  flex: 30%;
 }
 
 .col-50 {
@@ -37,15 +37,19 @@
 
 .col-75 {
   -ms-flex: 75%; /* IE10 */
-  flex: 75%;
+  flex: 70%;
 }
 
 
 .col-75 {
-    padding:5vh 5vw;
+    padding:5vh;
+  padding-left: 2vw;
+  padding-right: 5vw;
 }
 .col-25 {
-   padding:10vh 5vw;
+   padding:10vh;
+   padding-left: 5vw;
+  padding-right: 2vw;
 }
 .col-50 {
    padding: 5px 20px 15px 20px;
@@ -97,6 +101,7 @@ label {
 span.price {
   float: right;
   color: grey;
+  margin-left: 2vw;
 }
 
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other (and change the direction - make the "cart" column go on top) */
@@ -107,4 +112,77 @@ span.price {
   .col-25 {
     margin-bottom: 20px;
   }
+}
+/* Plus and minus buttons */
+.products {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 1vw;
+}
+
+.price {
+  display: inline-block;
+  font-size: 18px;
+  color: green;
+  margin-right: 10px;
+}
+
+.quantity {
+  display: inline-block;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.plus-btn, .minus-btn {
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border: none;
+  background-color: #eee;
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.plus-btn:hover, .minus-btn:hover {
+  background-color: #ddd;
+}
+
+.input-text {
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  vertical-align: middle;
+  border: none;
+  background-color: #eee;
+  color: #666;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]:focus {
+  outline: none;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]:focus {
+  outline: none;
+}
+
+.remove-btn{
+  margin-left: 1vw;
 }

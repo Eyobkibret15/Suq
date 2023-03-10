@@ -28,7 +28,7 @@ class PaymentDetail(models.Model):
 class OrderDetail(models.Model):
     id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    payment_id = models.ForeignKey(PaymentDetail, on_delete=models.CASCADE)
+    # payment_id = models.ForeignKey(PaymentDetail, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(editable=False)
     modified_at = models.DateTimeField(null=True, blank=True)
@@ -41,7 +41,7 @@ class OrderDetail(models.Model):
         return super(OrderDetail, self).save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.payment_id)
+        return self.user_id.first_name + ' ' + self.user_id.last_name
 
 
 class OrderItem(models.Model):
@@ -60,7 +60,7 @@ class OrderItem(models.Model):
         return super(OrderItem, self).save(*args, **kwargs)
 
     def __str__(self):
-        return str(self.order_id)
+        return str(self.product_id.name)
 
 
 # class ShoppingSession(models.Model):

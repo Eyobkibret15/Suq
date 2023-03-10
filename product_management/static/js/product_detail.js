@@ -43,6 +43,8 @@ function getProductDetail() {
             const description = document.getElementsByClassName('product-details')
             const description_detail = document.createElement('p')
             description_detail.innerHTML = response['description']
+            description_detail.id = _id
+            description_detail.className = 'product_id'
             description[0].append(description_detail)
         },
         failure: function (response) {
@@ -60,4 +62,42 @@ function ImgClick(event) {
     const sliderMainImage = document.getElementById("product-main-image");
     let src = event.target.src
     sliderMainImage.src = src
+}
+function add_to_cart(event) {
+    const _name = document.getElementsByClassName('product_id')
+    const _id = parseInt(_name[0].id)
+    var base_url = window.location.origin;
+    $.ajax({
+        type: 'GET',
+        url: base_url + '/add-to-cart/',
+        contentType: 'application/json; charset=utf-8',
+        // dataType: 'json',
+         headers: {
+        'Accept': 'application/json',
+    },
+        data: {'product_id':_id},
+        success: function (response) {
+            const cart = document.getElementsByClassName('cart-item-count')
+            cart[0].innerHTML = '01'
+            console.log(event.target.className )
+            if (event.target.className === 'button add-cart') {
+                alert('your item is added successfully')
+            }
+        },
+        failure: function (response) {
+             console.log("f")
+            alert(response.text)
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+    // Handle the error
+    console.log("Error: " + textStatus);
+    console.log("Status code: " + jqXHR.status);
+    console.log("Error thrown: " + errorThrown);
+  }
+    })
+}
+
+function addToWishlist() {
+  const heartIcon = document.querySelector('.heart i');
+  heartIcon.classList.toggle('active');
 }
