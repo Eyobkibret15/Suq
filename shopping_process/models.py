@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.utils import timezone
 
@@ -26,7 +28,7 @@ class PaymentDetail(models.Model):
 
 
 class OrderDetail(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_id = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     # payment_id = models.ForeignKey(PaymentDetail, on_delete=models.CASCADE)
     total = models.DecimalField(max_digits=10, decimal_places=2)
@@ -35,7 +37,8 @@ class OrderDetail(models.Model):
 
     def save(self, *args, **kwargs):
         """ On save, update timestamps """
-        if not self.id:
+        print(self.id,self.total)
+        if not self.created_at:
             self.created_at = timezone.now()
         self.modified_at = timezone.now()
         return super(OrderDetail, self).save(*args, **kwargs)

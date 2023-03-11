@@ -29,9 +29,9 @@ function getProductDetail() {
             categorie[0].innerHTML = response['name']
             if (response['discount'] && (response['discount'] > 0)) {
                 const price = document.getElementsByClassName('offer-price')
-                price[0].innerHTML = '$' + (response['price'] - (response['price'] * (response['discount'] / 100)))
+                price[0].innerHTML = (response['price'] - (response['price'] * (response['discount'] / 100))) + ' PLN'
                 const sale_price = document.getElementsByClassName('sale-price')
-                sale_price[0].innerHTML = '$' + response['price']
+                sale_price[0].innerHTML =  response['price'] + ' PLN'
             } else {
                 const price = document.getElementsByClassName('offer-price')
                 price[0].innerHTML = '$' + response['price']

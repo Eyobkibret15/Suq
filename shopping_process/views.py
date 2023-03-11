@@ -1,6 +1,7 @@
 import decimal
 
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -124,4 +125,45 @@ def payment_summery(request,order_id):
     if not user_id:
         return Response(status=400)
     user = UserProfile.objects.get(id=user_id)
+    # subject = 'Subject of the Email'
+    # message = 'This is the message of the email.'
+    # from_email = 'gedionabate.molla@gmail.com'
+    # recipient_list = ['ayaleweyob15@gmail.com']
+    #
+    # send_mail(subject, message, from_email, recipient_list)
     return render(request, 'payment_summery.html',context={'order_id': order_id,'user_id':user_id})
+
+
+@api_view(['GET'])
+def get_order(request,order_id:int):
+    user_id = request.session.get('user_id')
+    if not user_id:
+        return Response(status=400)
+    user = UserProfile.objects.get(id=user_id)
+    order = OrderDetail.objects.get(id=order_id)
+    data = {'id': order_id}
+
+    order_item = OrderItem.objects.filter(order_id=order)
+    sub_total = 0
+    delivery_total = 0
+    for order in order_item:
+        price = order.product_id.price
+        discount = order.product_id.discount_id
+        if discount:
+            discount = discount.discount_present
+            discount_value = decimal.Decimal(price) * (discount/100)
+            price = decimal.Decimal(price) - discount_value
+        fprice = price * order.quantity
+        delivery = order.product_id.shipping_method.cost
+        if not delivery:delivery = 0
+        sub_total += decimal.Decimal(fprice)
+        delivery_total +=delivery
+        if delivery:
+            delivery = str(delivery) + ' PLN'
+        else:
+            delivery = 'Free'
+        data[order.product_id.name] = {'delivery':delivery,'price':fprice, 'name':order.product_id.name, 'pnumber': order.product_id.product_number}
+    data['sub_total'] = sub_total
+    data['delivery_total'] = delivery_total
+    data['total_price'] = sub_total + delivery_total
+    return Response(data=data,status=200)

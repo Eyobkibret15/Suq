@@ -12,6 +12,7 @@ class PaymentDetailAdmin(admin.ModelAdmin):
 
 @admin.register(OrderDetail)
 class OrderDetailAdmin(admin.ModelAdmin):
+    list_display = ('user_id', 'id', 'total', 'created_at', 'modified_at')
     readonly_fields = ('created_at','modified_at')
     class Meta:
         verbose_name = 'Order Detail'

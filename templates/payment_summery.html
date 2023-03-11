@@ -28,10 +28,10 @@
 {#            </div>#}
             <div class="user-interactions">
 
-                <div class="cart">
-                    <img src="{% static "img/cart.png" %}" class="cart-icon" alt="">
-                    <span class="cart-item-count">00</span>
-                </div>
+{#                <div class="cart">#}
+{#                    <img src="{% static "img/cart.png" %}" class="cart-icon" alt="">#}
+{#                    <span class="cart-item-count">00</span>#}
+{#                </div>#}
                 <div class="user">
                     <a href="{% url 'signin' %}"><img src="{% static "img/user.png" %}" class="user-icon" alt=""></a>
                 </div>
@@ -52,7 +52,10 @@
                 <span>Order Confirmation</span>
             </div>
             <div class="bag">
-                <p class="bag-head"><span style="text-transform: capitalize">order-number</span> - 1232423453426536</p>
+                <p class="bag-head">
+                    <span style="text-transform: capitalize">order-number</span>
+                    <b id="order_id">- 1232423453426536</b>
+                </p>
             </div>
             <div class="bag-product">
                 <div class="image">
@@ -60,44 +63,28 @@
                     {#                     class="product-image">#}
                 </div>
                 <div class="description">
-                    <h1>Product 1</h1>
-                    <p class="product-code small muted">Product code: SS022592000</p>
-                    {#                <p class="description-text">An easy-to-use dive computer with freedive mode and air integration.</p>#}
-                    {#                <p style="margin-bottom: 0.5rem;">One Size</p>#}
-                    <h3>825.00 PLN</h3>
-                    <br>
-                    <h1>Product 2</h1>
-                    <p class="product-code small muted">Product code: SS022592000</p>
-                    {#                <p class="description-text">An easy-to-use dive computer with freedive mode and air integration.</p>#}
-                    {#                <p style="margin-bottom: 0.5rem;">One Size</p>#}
-                    <h3>453.00 PLN</h3>
-                    <div class="quantity-wrapper">
-                        {#                    <div>#}
-                        {#                        <label for="quantity" style="margin-right: 0.5rem;">Quantity:</label>#}
-                        {#                        <select name="quantity" style="margin-bottom: 1rem;">#}
-                        {#                            <option value disabled>Please select</option>#}
-                        {#                            <option value="1" selected>1</option>#}
-                        {#                            <option value="2">2</option>#}
-                        {#                            <option value="3">3</option>#}
-                        {#                        </select>#}
-                        {#                    </div>#}
-                        {#                    <button class="btn-remove">Cancel</button>#}
-                    </div>
+{#                    <h1>Product 1</h1>#}
+{#                    <p class="product-code small muted">Product code: SS022592000</p>#}
+{#                    <h3>825.00 PLN</h3>#}
+{#                    <br>#}
+{#                    <h1>Product 2</h1>#}
+{#                    <p class="product-code small muted">Product code: SS022592000</p>#}
+{#                    <h3>453.00 PLN</h3>#}
                 </div>
             </div>
             <div class="bag-total">
                 <div class="subtotal">
-                    <p class="small">Subtotal:</p>
-                    <p class="small">1278.00 PLN</p>
+{#                    <p class="small">Price subtotal:</p>#}
+{#                    <p class="small">1278.00 PLN</p>#}
                 </div>
                 <div class="delivery">
-                    <p class="small">Delivery (Standard - 2 working days):<br>
+{#                    <p class="small">Delivery (Standard - 2 working days):<P>#}
                         {#                    <span class="change-delivery">Change delivery method</span></p>#}
-                    <p class="small">8 PLN</p>
+{#                    <p class="small">8 PLN</p>#}
                 </div>
                 <div class="total">
-                    <h3>Total:</h3>
-                    <h3>1286.00 PLN</h3>
+{#                    <h3>Total:</h3>#}
+{#                    <h3>1286.00 PLN</h3>#}
                 </div>
                 {#            <div class="promo-checkbox">#}
                 {#                <input type="checkbox" name="promo-check" checked>#}
@@ -120,4 +107,5 @@
     <div class="bg"></div>
 {% endblock content %}
 {% block jssscript %}
+    <script src={% static 'js/payment_summery.js' %}></script>
 {% endblock jssscript %}

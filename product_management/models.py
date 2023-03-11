@@ -1,3 +1,5 @@
+import random
+
 from django.db import models
 from django.utils import timezone
 
@@ -98,6 +100,7 @@ class ProductImage(models.Model):
 class ShippingMethod(models.Model):
     free_delivery = models.BooleanField(default=False)
     free_return = models.BooleanField(default=False)
+    cost = models.IntegerField(null=True,blank=True)
     created_at = models.DateTimeField(editable=False)
     modified_at = models.DateTimeField(null=True, blank=True)
 
@@ -117,11 +120,13 @@ class ShippingMethod(models.Model):
             return 'Free Return'
         else:
             return 'standard'
-
+def generate_product_number():
+    return random.randint(1000000000, 9999999999)
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=250)
+    product_number = models.PositiveIntegerField(default=generate_product_number)
     price = models.FloatField()
     owner = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     active = models.BooleanField(default=False)
